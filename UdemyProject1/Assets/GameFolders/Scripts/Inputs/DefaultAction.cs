@@ -37,6 +37,15 @@ namespace UdemyProject.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftRight"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""27171c53-47e3-45ab-851e-d7ded01a170b"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -50,6 +59,39 @@ namespace UdemyProject.Input
                     ""action"": ""ForceUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""7592b298-4b51-4856-8e7c-a67a3c93b92d"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftRight"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""3858e9b5-c67f-4856-8315-560218179f03"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""dd485a80-4cf3-4d36-9dea-b04dc22f12c1"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -59,6 +101,7 @@ namespace UdemyProject.Input
             // Rocket
             m_Rocket = asset.FindActionMap("Rocket", throwIfNotFound: true);
             m_Rocket_ForceUp = m_Rocket.FindAction("ForceUp", throwIfNotFound: true);
+            m_Rocket_LeftRight = m_Rocket.FindAction("LeftRight", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -119,11 +162,13 @@ namespace UdemyProject.Input
         private readonly InputActionMap m_Rocket;
         private IRocketActions m_RocketActionsCallbackInterface;
         private readonly InputAction m_Rocket_ForceUp;
+        private readonly InputAction m_Rocket_LeftRight;
         public struct RocketActions
         {
             private @DefaultAction m_Wrapper;
             public RocketActions(@DefaultAction wrapper) { m_Wrapper = wrapper; }
             public InputAction @ForceUp => m_Wrapper.m_Rocket_ForceUp;
+            public InputAction @LeftRight => m_Wrapper.m_Rocket_LeftRight;
             public InputActionMap Get() { return m_Wrapper.m_Rocket; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -136,6 +181,9 @@ namespace UdemyProject.Input
                     @ForceUp.started -= m_Wrapper.m_RocketActionsCallbackInterface.OnForceUp;
                     @ForceUp.performed -= m_Wrapper.m_RocketActionsCallbackInterface.OnForceUp;
                     @ForceUp.canceled -= m_Wrapper.m_RocketActionsCallbackInterface.OnForceUp;
+                    @LeftRight.started -= m_Wrapper.m_RocketActionsCallbackInterface.OnLeftRight;
+                    @LeftRight.performed -= m_Wrapper.m_RocketActionsCallbackInterface.OnLeftRight;
+                    @LeftRight.canceled -= m_Wrapper.m_RocketActionsCallbackInterface.OnLeftRight;
                 }
                 m_Wrapper.m_RocketActionsCallbackInterface = instance;
                 if (instance != null)
@@ -143,6 +191,9 @@ namespace UdemyProject.Input
                     @ForceUp.started += instance.OnForceUp;
                     @ForceUp.performed += instance.OnForceUp;
                     @ForceUp.canceled += instance.OnForceUp;
+                    @LeftRight.started += instance.OnLeftRight;
+                    @LeftRight.performed += instance.OnLeftRight;
+                    @LeftRight.canceled += instance.OnLeftRight;
                 }
             }
         }
@@ -150,6 +201,7 @@ namespace UdemyProject.Input
         public interface IRocketActions
         {
             void OnForceUp(InputAction.CallbackContext context);
+            void OnLeftRight(InputAction.CallbackContext context);
         }
     }
 }
