@@ -18,6 +18,7 @@ namespace UdemyProject.Controllers
         private Rotator _rotator;
         private Fuel _fuel;
 
+        private bool _canMove;
         private bool _isForceUp;
         private float _leftRight;
 
@@ -32,8 +33,28 @@ namespace UdemyProject.Controllers
             _fuel = GetComponent<Fuel>();
         }
 
+        private void Start()
+        {
+            _canMove = true;
+        }
+
+        private void OnEnable()
+        {
+            GameManager.Instance.OnGameOver += HandleEventTriggered;
+        }
+
+
+        private void OnDisable()
+        {
+            GameManager.Instance.OnGameOver -= HandleEventTriggered;
+        }
+
+        
+
         private void Update()
         {
+            if (!_canMove) return;
+
             if (_input.IsForceUp && !_fuel.IsEmtpy)
             {
                 _isForceUp = true;
@@ -56,6 +77,13 @@ namespace UdemyProject.Controllers
             }
 
             _rotator.FixedTick(_leftRight);
+        }
+        private void HandleEventTriggered()
+        {
+            _canMove = false;
+            _isForceUp = false;
+            _leftRight = 0f;
+            _fuel.FuelIncrease(0);
         }
 
     }

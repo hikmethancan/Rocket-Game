@@ -25,7 +25,7 @@ namespace UdemyProject.Controllers
             else
             {
                 // GameOver
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                GameManager.Instance.GameOver();
             }
         }
 

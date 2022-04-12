@@ -1,6 +1,4 @@
-
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace UdemyProject.Controllers
 {
@@ -13,7 +11,7 @@ namespace UdemyProject.Controllers
 
             if (player != null)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                GameManager.Instance.GameOver();
             }
         }
     }
