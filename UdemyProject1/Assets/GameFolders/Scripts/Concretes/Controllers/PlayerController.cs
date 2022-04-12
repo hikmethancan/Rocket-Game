@@ -42,6 +42,10 @@ namespace UdemyProject.Controllers
         {
             GameManager.Instance.OnGameOver += HandleEventTriggered;
         }
+        //private void OnEnable()
+        //{
+        //    GameManager.Instance.OnGameOver += HandleEventTriggered;
+        //}
 
 
         private void OnDisable()
