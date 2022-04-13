@@ -21,6 +21,7 @@ namespace UdemyProject.Controllers
             {
                 _finishLight.gameObject.SetActive(true);
                 _finishFireWork.gameObject.SetActive(true);
+                GameManager.Instance.MissionSucceed();
             }
             else
             {
