@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(LoadLevelSceneAsync(levelIndex));
     }
-
+    
     private IEnumerator LoadLevelSceneAsync(int levelIndex)
     {
         yield return SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + levelIndex);
