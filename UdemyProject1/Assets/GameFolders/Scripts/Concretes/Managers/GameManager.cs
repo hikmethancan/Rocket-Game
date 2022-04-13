@@ -1,32 +1,20 @@
 
 using System.Collections;
+using UdemyProject.Abstracts.Utilities;
+using UdemyProject.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     public event System.Action OnGameOver;
 
     public event System.Action OnMissionSucceed;
-    public static GameManager Instance { get; private set; }
 
     private void Awake()
     {
-        SingletonThisManager();
-    }
-
-    private void SingletonThisManager()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        SingletonThisGameObject(this);
     }
 
 
@@ -49,7 +37,9 @@ public class GameManager : MonoBehaviour
     
     private IEnumerator LoadLevelSceneAsync(int levelIndex)
     {
+        SoundManager.Instance.StopSound(1);
         yield return SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + levelIndex);
+        SoundManager.Instance.PlaySound(0);
     }
 
     public void LoadMenuScene()
@@ -59,7 +49,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadMenuSceneAsync()
     {
+        SoundManager.Instance.StopSound(0);
         yield return SceneManager.LoadSceneAsync($"Menu");
+        SoundManager.Instance.PlaySound(1);
     }
 
     public void Exit()
