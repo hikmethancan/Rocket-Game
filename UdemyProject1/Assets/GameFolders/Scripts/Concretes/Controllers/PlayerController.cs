@@ -22,6 +22,7 @@ namespace UdemyProject.Controllers
         private bool _isForceUp;
         private float _leftRight;
 
+        public bool CanMove => _canMove;
         public float TurnSpeed => _turnSpeed;
         public float Force => _force;
 
