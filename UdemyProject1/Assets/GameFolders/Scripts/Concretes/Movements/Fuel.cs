@@ -12,6 +12,7 @@ namespace UdemyProject.Movements
         [SerializeField] ParticleSystem _particleSystem;
 
         public bool IsEmtpy => _currentFuel < 1f;
+        public float CurrentFuel => _currentFuel / _maxFuel;
         
 
         private void Awake()
